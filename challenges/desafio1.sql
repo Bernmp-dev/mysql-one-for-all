@@ -32,42 +32,35 @@ CREATE TABLE album
 (
 album_id INT PRIMARY KEY AUTO_INCREMENT,
 album VARCHAR(55),
-ano_lancamento INT
+artista_id INT,
+ano_lancamento INT,
+FOREIGN KEY (artista_id) REFERENCES artista(artista_id)
 );
 
 CREATE TABLE cancao
 (
 cancao_id INT PRIMARY KEY AUTO_INCREMENT,
 cancao VARCHAR(55),
-duracao_segundos INT
-);
-
-CREATE TABLE cancao_album_artista
-(
-cancao_album_artista_id INT PRIMARY KEY AUTO_INCREMENT,
-cancao_id INT,
+duracao_segundos INT,
 album_id INT,
-artista_id INT,
-FOREIGN KEY (album_id) REFERENCES album(album_id),
-FOREIGN KEY (artista_id) REFERENCES artista(artista_id),
-FOREIGN KEY (cancao_id) REFERENCES cancao(cancao_id)
+FOREIGN KEY (album_id) REFERENCES album(album_id)
 );
 
 CREATE TABLE historico
 (
-historico_id INT PRIMARY KEY AUTO_INCREMENT,
 pessoa_usuaria_id INT,
 cancao_id INT,
 data_de_reproducao VARCHAR(75),
+PRIMARY KEY (pessoa_usuaria_id, cancao_id),
 FOREIGN KEY (pessoa_usuaria_id) REFERENCES pessoa_usuaria(pessoa_usuaria_id),
 FOREIGN KEY (cancao_id) REFERENCES cancao(cancao_id)
 );
 
 CREATE TABLE seguindo_artistas
 (
-seguindo_artistas_id INT PRIMARY KEY AUTO_INCREMENT,
 pessoa_usuaria_id INT,
 artista_id INT,
+PRIMARY KEY (pessoa_usuaria_id, artista_id),
 FOREIGN KEY (pessoa_usuaria_id) REFERENCES pessoa_usuaria(pessoa_usuaria_id),
 FOREIGN KEY (artista_id) REFERENCES artista(artista_id)
 );
@@ -98,39 +91,27 @@ INSERT INTO artista (artista_nome) VALUES
 	('Blind Guardian'),
 	('Nina Simone');
 
-INSERT INTO album (album, ano_lancamento) VALUES
-	('Renaissance', '2022'),
-	('Jazz', '1978'),
-	('Hot Space', '1982'),
-	('Falso Brilhante', '1998'),
-	('Vento de Maio', '2001'),
-	('QVVJFA?', '2003'),
-	('Somewhere Far Beyond', '2007'),
-	('I Put A Spell On You', '2012');
+  INSERT INTO album (album, artista_id, ano_lancamento) VALUES
+	('Renaissance', '1', '2022'),
+	('Jazz', '2', '1978'),
+	('Hot Space', '2', '1982'),
+	('Falso Brilhante', '3', '1998'),
+	('Vento de Maio', '3', '2001'),
+	('QVVJFA?', '4', '2003'),
+	('Somewhere Far Beyond', '5', '2007'),
+	('I Put A Spell On You', '6', '2012');
 
-INSERT INTO cancao (cancao, duracao_segundos) VALUES
-	('"BREAK MY SOUL"', '279'),
-	('"VIRGO\'S GROOVE"', '369'),
-	('"ALIEN SUPERSTAR"', '116'),
-	('"Don\'t Stop Me Now"', '203'),
-	('"Under Pressure"', '152'),
-	('"Como Nossos Pais"', '105'),
-	('"O Medo de Amar é o Medo de Ser Livre"', '207'),
-	('"Samba em Paris"', '267'),
-	('"The Bard\'s Song"', '244'),
-	('"Feeling Good"', '100');
-
-INSERT INTO cancao_album_artista (cancao_id, album_id, artista_id) VALUES
-	('1', '1', '1'),
-	('2', '1', '1'),
-	('3', '1', '1'),
-	('4', '2', '2'),
-	('5', '3', '2'),
-	('6', '4', '3'),
-	('7', '5', '3'),
-	('8', '6', '4'),
-	('9', '7', '5'),
-	('10', '8', '6');
+  INSERT INTO cancao (cancao, duracao_segundos, album_id) VALUES
+	('"BREAK MY SOUL"', '279', '1'),
+	('"VIRGO\'S GROOVE"', '369', '1'),
+	('"ALIEN SUPERSTAR"', '116', '1'),
+	('"Don\'t Stop Me Now"', '203', '2'),
+	('"Under Pressure"', '152', '3'),
+	('"Como Nossos Pais"', '105', '4'),
+	('"O Medo de Amar é o Medo de Ser Livre"', '207', '5'),
+	('"Samba em Paris"', '267', '6'),
+	('"The Bard\'s Song"', '244', '7'),
+	('"Feeling Good"', '100', '8');
 
 INSERT INTO historico (pessoa_usuaria_id, cancao_id, data_de_reproducao) VALUES
 	('1', '8', '"2022-02-28 10:45:55"'),
